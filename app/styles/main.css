@@ -108,6 +108,8 @@
 	display: flex;
 	-webkit-appearance: none;
 	width: 100%
+;
+	border-width: 1px;
 }
 
 .charsheet input[type=checkbox]::after {
@@ -523,7 +525,7 @@ h4 + * > .sheet-sub-header {
 
 .charsheet .sheet-checkbox-row {
     background-color: #fff;
-    box-shadow: inset 0 0 1px rgba(0,0,0,0.2);
+    /* box-shadow: inset 0 0 1px rgba(0,0,0,0.2); */
 }
 
 .sheet-hd-row {
