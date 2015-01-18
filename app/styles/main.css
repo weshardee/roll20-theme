@@ -5,7 +5,36 @@
 /* $light: #dcdcde */
 /* $bg: e9eff2 */
 
+/* fill screen */
+.ui-dialog {
+	z-index: 9999999999999 !important;
+}
+
+.characterdialog {
+	position: fixed !important;
+	top: 0;
+	right: 0;
+	height:  auto !important;
+	bottom: 0 !important;
+	background: #fff !important;
+}
+
+.characterdialog ~ .ui-dialog-titlebar {
+	position: fixed !important;
+	top: 0;
+	left: 0;
+	right: 0;
+}
+
 /* remove extra space around sheet */
+
+.nav-tabs {
+	margin-bottom: 0;
+}
+
+.sheetform {
+	margin: 0;
+}
 
 .characterdialog {
 	padding: 0 !important;
@@ -22,6 +51,10 @@
 
 /* sheet itself */
 
+.nav-tabs > .active > a {
+	background: #e9eff2;
+}
+
 .charsheet {
 	background: #e9eff2;
 	padding: 1rem !important;
@@ -32,37 +65,91 @@
 .charsheet * {
 	box-shadow: none;
 	box-sizing: border-box;
-	/* border-radius: 0 !important; */
 	justify-content: center;
 	align-items: center;
 	min-height: 2rem;
 	-webkit-font-smoothing: antialiased;
 	line-height: 1.2em;
 	border-radius: inherit;
+	border: 0px solid rgba(0,0,0,0.05);
+	font-size: 0.7rem;
+	margin: 0;
+}
+
+.charsheet img {
+	height: 2.7rem;
 }
 
 .charsheet br {
-	display: none;
+	/* display: none; */
+}
+
+/* row modification buttons */
+
+.charsheet .itemcontrol  {
+    z-index: 9999;
+}
+
+.charsheet :hover > .itemcontrol {
+	background: rgba(76,161,199, 0.2) !important;
 }
 
 /* general layout */
 
 .sheet-row {
+	position: relative;
 	display: flex !important;
-	align-items: flex-start;
-	justify-content: stretch;
-	width: 100%;
+	flex-direction: row;
+	justify-content: center;
+	align-self: stretch;
+	align-items: stretch
+	;
+}
+
+.sheet-section-class > .sheet-row,
+.sheet-section-skills > .sheet-row,
+.sheet-section-core > .sheet-row {
+	margin-left: -1rem;
+}
+
+.sheet-section-class > .sheet-row > *,
+.sheet-section-skills > .sheet-row > *,
+.sheet-section-core > .sheet-row > * {
+	margin-left: 1rem;
+}
+
+.sheet-sub-header + .sheet-row,
+.sheet-sub-header ~ .sheet-row + .sheet-row {
+	background-color: #ffffff;
+}
+
+/* 1off layout override for death saving throw button */
+:last-child > :last-child > .sheet-row {
+	flex-direction: column;
+	align-items: stretch;
+}
+
+
+/* stretch last armour heading row */
+.sheet-section-armour .sheet-row.sheet-padb {
+	
 }
 
 /* remove double lines from table elements */
 
 .sheet-row > * + * > * {
-	border-left: 0 !important;
+	border-left-color: transparent !important;
 }
 
 .sheet-row + .sheet-row > * > * {
-	border-top: 0 !important;
+	border-top-color: transparent !important;
 }
+
+/* color nested rows for death saving throws */
+.sheet-padl > .sheet-row > .sheet-small-label {
+	background-color: #fff;
+}
+
 
 /* icons */
 
@@ -101,12 +188,80 @@
 	display: flex;
 }
 
+/* buttons */
+
+.charsheet .btn {
+	align-self: stretch;
+	margin: 0 !important;
+	background: #E0A32A;
+	color: #fff;
+	text-shadow: none;
+	/* box-shadow: inset 1px 1px 0 rgba(255,255,255,0.15); */
+	padding-left: 0.5rem;
+	padding-right: 0.5rem;
+	/* box-shadow: inset 0 -.1rem 0 rgba(0,0,0,0.1); */
+	border-bottom-width: 1px;
+	-webkit-font-smoothing: auto;
+}
+
+.charsheet .btn:hover {
+	opacity: 0.9;
+}
+
+.charsheet button[type=roll] {
+	font-size: 0 !important; /* hide the text it's redunant */
+}
+
+.charsheet button[type=roll]:before {
+	font-size: 20px !important;
+	display: flex;
+	justify-content: center;
+}
+
+.charsheet button.sheet-initiative {
+	height: 2.7rem;
+}
+
+.charsheet .btn[name=roll_Death_Saving_Throw] {
+    height: 4rem;
+	
+}
+
+/* checkboxes */
+
+[class^=sheet-section] input[type=checkbox] {
+	display: flex;
+	-webkit-appearance: none;
+	width: 100%
+;
+	border-width: 1px;
+	background: #ffffff;
+}
+
+[class^=sheet-section] input[type=checkbox]::after {
+	border-radius: 50%;
+	border: 1px solid rgba(0,0,0,0.15);
+	box-shadow: inset 0 0 0 2px rgba(255,255,255,1);
+	-webkit-appearance: none;
+	background: #fff;
+	width: 1rem;
+	height: 1rem;
+	content: " ";
+	box-sizing: border-box;
+	background-clip: content-box;
+}
+
+[class^=sheet-section] input[type=checkbox]:checked::after {
+	background-color: rgba(72,70,75, 0.9);
+}
+
 /* sheet type button */
 
-.sheet-is-npc, 
-.sheet-is-npc-tab {
+.sheet-is-npc {
+	-webkit-appearance: none;
 	display: flex;
-	width: 100%;	
+	align-self: stretch;
+	width: 100% !important;	
 	position: relative;
 	z-index: 0;
 	height: 2rem !important;
@@ -114,36 +269,57 @@
 	background: rgb(76,161,199);
 			color: white;
 	box-shadow: inset 0 -.1rem 0 rgba(0,0,0,0.1);
-	border-radius: 0.2rem;
+	border-radius: 0.2rem !important;
+	margin-bottom:  1rem !important;
 }
 
-.sheet-is-npc {
-	z-index: 1; /* sit over label */
-	opacity: 0; /* hide */
-	margin-bottom: -2rem !important; /* slide label under */
-	width: 100% !important;
+.sheet-is-npc:checked {
+	background-color: #eaffef;
+	color: #666;
 }
 
-.sheet-is-npc-tab {	
-	margin-bottom:  1rem;
-}
-
-.sheet-is-npc-tab::before {
+.sheet-is-npc::after {
 	content: "Player Sheet";
 }
 
-:checked + .sheet-is-npc-tab {
-	background: #93537c;     
+.sheet-is-npc:checked::after {
+	content: "NPC Sheet";
 }
 
-:checked + .sheet-is-npc-tab::before {
-	content: "NPC Sheet"
+.sheet-is-npc-tab {	
+	display: none !important;
 }
+
+.sheet-player, 
+.sheet-npc { 	
+	display: none;
+	overflow: hidden;
+	flex-wrap: wrap;
+}
+
+.sheet-is-npc:checked ~ div.sheet-npc,
+.sheet-is-npc:not(:checked) ~ div.sheet-player
+{
+	display: flex;
+	max-height: 999999px;
+	/* opacity: 1; */
+	/* transition: opacity 0.5s linear 0s; */
+	/* overflow: auto; */
+}
+
 
 /* sheet header */
 
+.sheet-core-header {
+	margin-bottom: 1rem;
+}
+
+.sheet-core-header .sheet-row {
+	align-items: stretch;
+}
+
 .sheet-core-header .sheet-row > * + * {
-	padding-left: 0.5rem;
+	padding-left: 1rem;
 }
 
 .sheet-core-header input {
@@ -152,42 +328,76 @@
 
 /* sheet tabs */
 
-.charsheet .sheet-tab {
-	position: relative;
+.sheet-tab {
+	-webkit-appearance: none;
 	display: flex;
 	flex-grow: 1;		
-	width: 11.1%;
-	height: 2rem !important;
-	background: #000;
-	margin-bottom: 1rem;
+	margin-bottom: 1rem !important;
 	background: rgb(76,161,199); 
 	color: white;
 	z-index: 0;
 	box-shadow: inset 0 -.1rem 0 rgba(0,0,0,0.1);   
+	visibility: visible;
 }
 
-.charsheet .sheet-tab:nth-child(2) {
-	border-top-left-radius: .2rem;
-    border-bottom-left-radius: .2rem;
+.sheet-tab1 {
+	border-top-left-radius: .2rem !important;
+    border-bottom-left-radius: .2rem !important;
 }
 
-.charsheet .sheet-tab:nth-child(18) {
-	border-top-right-radius: .2rem;
-    border-bottom-right-radius: .2rem;
+.sheet-tab99 {
+	border-top-right-radius: .2rem !important;
+    border-bottom-right-radius: .2rem !important;
 }
 
-.charsheet .sheet-tab + .sheet-tab {
-	border-left: 0;
+.sheet-tab:checked {
+	background-color: #E0A32A !important;
 }
 
-.charsheet input.sheet-tab {
-	opacity: 0; /* hide */
-	z-index: 1; /* sit over label */
-	margin-right: -11.1%; /* pull label under */
+/* sheet tab labels */
+
+.sheet-tab1::after {
+	content: "Core Stats";
 }
 
-.charsheet :checked + .sheet-tab {
-	background-color: #E0A32A;
+.sheet-tab2::after {
+	content: "Skills";
+}
+
+.sheet-tab3::after {
+	content: "Background";
+}
+
+.sheet-tab4::after {
+	content: "Class";
+}
+
+.sheet-tab5::after {
+	content: "Weapons";
+}
+
+.sheet-tab6::after {
+	content: "Spellbook";
+}
+
+.sheet-tab7::after {
+	content: "Inventory";
+}
+
+.sheet-tab8::after {
+	content: "Armour";
+}
+
+.sheet-tab9::after {
+	content: "Inventory";
+}
+
+.sheet-tab99::after {
+	content: "Show All";
+}
+
+span.sheet-tab {
+	display: none;
 }
 
 /* main content areas */
@@ -204,9 +414,74 @@
 }
 
 .sheet-section-core > .sheet-row {
-	margin-bottom: 1rem;
 }
 
+/* labels */
+
+.sheet-small-note,
+.sheet-small-label {
+	font-size: 0.6rem;
+	text-align: center;
+	line-height: 1rem;
+	color: rgba(0,0,0,0.5);
+}
+
+.sheet-small-label > input {
+	margin-bottom: -1rem;
+	padding-bottom: 0.7rem !important;
+	height: 2.7rem !important;
+}
+
+.sheet-small-label > br {
+	display: none;
+}
+
+.sheet-small-note {
+	display: flex;
+	background: #ffffff;
+	margin: 0;
+	line-height: 1.2em;
+	padding: 0.3rem;
+	padding-left:1rem;
+	padding-right: 1rem;
+	align-self: stretch;
+	height: auto;
+}
+
+.sheet-small-note:last-child {
+	border-bottom-width: 0;
+}
+
+
+/* headers */
+
+.sheet-sub-header { 
+	width: 100%;
+	background-color: rgba(72,70,75, 0.9) !important;
+	color: #fff;
+	/* border-top: 1px solid rgba(255,255,255,.05); */
+	border-bottom: 1px solid rgba(0,0,0,0.05);
+	margin-top: 1rem;
+	border-top-right-radius: 0.2rem;
+	border-top-left-radius: 0.2rem;
+}
+
+.sheet-sub-header .sheet-small-label {
+	color: #ffffff;
+}
+
+h4 + .sheet-sub-header,
+h4 + * > .sheet-sub-header {
+	margin-top: 0; /* hug the main panel header */
+	border-radius: 0;
+}
+
+/* class headers on class tab */
+.sheet-section-core .sheet-col-1-4.sheet-margin-top.sheet-small-label, .sheet-section-class .sheet-col-1-8.sheet-center.sheet-margin-top {
+    background-color: #fafafa;
+    border-bottom-width: 1px;
+    border-right-width: 1px;
+}
 
 /* unsorted */
 .charsheet div[class="repcontainer editmode"] ~ div[class^="repcontrol"] button[class="btn repcontrol_add"] {
@@ -214,37 +489,23 @@
 	visibility: hidden;
 }
 
-.charsheet .sheet-player, 
-.charsheet .sheet-npc { 	
-	display: flex;
+
+[class^="sheet-section"] { 	
 	visibility: hidden;
 	opacity: 0;
 	max-height:0;
+	display: none;
 	overflow: hidden;
-	flex-wrap: wrap;
-}
-
-.charsheet :checked + div.sheet-npc,
-.charsheet :not(:checked ) + div.sheet-player
-{
-	max-height: 999999px;
-	visibility: visible;
-	opacity: 1;
-	transition: opacity 0.5s linear 0s;
-	overflow: auto;
-}
-
-.charsheet div[class^="sheet-section"] { 	
-	visibility: hidden;
-	opacity: 0;
-	max-height:0;
-	overflow: hidden;
+	flex-direction: column;
+	align-self: stretch;
 }
 
 .charsheet input.sheet-tab1:checked ~ div.sheet-section-core,.charsheet input.sheet-tab2:checked ~ div.sheet-section-skills,.charsheet input.sheet-tab3:checked ~ div.sheet-section-background,.charsheet input.sheet-tab4:checked ~ div.sheet-section-class,.charsheet input.sheet-tab5:checked ~ div.sheet-section-weapons,.charsheet input.sheet-tab6:checked ~ div.sheet-section-spellbook,.charsheet input.sheet-tab8:checked ~ div.sheet-section-armour,.charsheet input.sheet-tab7:checked ~ div.sheet-section-inventory {
 	max-height: 999999px;
 	visibility: visible;
 	opacity: 1;
+	display: flex;
+	height: auto;
 	transition: opacity 0.5s linear 0s;
 	overflow: auto;
 }
@@ -253,6 +514,7 @@
 	max-height: 999999px;
 	visibility: visible;
 	opacity: 1;
+	display: flex;
 	transition: opacity 0.5s linear 0s;
 }
 
@@ -260,7 +522,7 @@
 .charsheet .sheet-inspiration-tab {
 	display: flex;
 	width: 100%;
-	height: 30px !important;
+	height: 4rem !important;
 	color: white;
 	cursor: pointer;
 	position: relative;
@@ -268,20 +530,21 @@
 	font-size: 13px;
 	text-align: center;
 	align-items: center;
+	background: #eaffef;
+	color: #666;
+	height: 4rem;
+	border-right-width:1px;
 }
 
 .charsheet .sheet-inspiration {
 	opacity: 0; /* hide */
 	z-index: 1; /* sit over label */
-}
-
-.charsheet .sheet-inspiration-tab {
-	background: #8c6075;
-	margin-top: -30px; /* offset radio width to slide under */
+	margin-bottom: -4rem !important; /* pull label underneath */
 }
 
 .charsheet :checked + .sheet-inspiration-tab {
-	background: #879a6a;     
+	background: #E0A32A;
+	color: #fff;     
 }
 
 .charsheet .sheet-inspiration-tab::before {
@@ -427,81 +690,91 @@
 	transition: opacity 0.5s linear 0s;
 }
 
-.charsheet input.sheet-inventorytab1:checked ~ span.sheet-inventorytab1,.charsheet input.sheet-inventorytab2:checked ~ span.sheet-inventorytab2,.charsheet input.sheet-inventorytab3:checked ~ span.sheet-inventorytab3,.charsheet input.sheet-inventorytab4:checked ~ span.sheet-inventorytab4,.charsheet input.sheet-inventorytab99:checked ~ span.sheet-inventorytab99
+.charsheet input.sheet-inventorytab1:checked ~ span.sheet-inventorytab1,
+.charsheet input.sheet-inventorytab2:checked ~ span.sheet-inventorytab2,
+.charsheet input.sheet-inventorytab3:checked ~ span.sheet-inventorytab3,
+.charsheet input.sheet-inventorytab4:checked ~ span.sheet-inventorytab4,
+.charsheet input.sheet-inventorytab99:checked ~ span.sheet-inventorytab99
  {
 	background: rgb(0,158,115);    
 	color: white;
 }
 
-.charsheet input.sheet-inventorytab {
+/* inventory page tabs */
+input.sheet-inventorytab {
 	width: 155px;
 	height: 20px;
 	cursor: pointer;
 	position: relative;
-	opacity: 0;
 	z-index: 9999;
 }
 
-.charsheet span.sheet-inventorytab {
+.sheet-inventorytab {
+	-webkit-appearance: none;
+
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
 	text-align: center;
-	display: inline-block;    
+
 	font-size: 13px;
 	background: rgb(86,180,233); 
 	color: white;
-	font-weight: bold;
-	border-radius: 4px;
-	
-	width: 155px;
-	height: 20px;
-	cursor: pointer;
-	position: relative;
-	margin-left: -158px;
 }
 
-.charsheet .sheet-small-label {
-	font-size: 0.6rem;
-	text-align: center;
+.sheet-inventorytab:checked {
+	background-color: #E0A32A !important
 }
 
-.charsheet .sheet-row input:not(:last-child) {
-	margin-bottom: .2rem;
+span.sheet-inventorytab {
+	display: none;
 }
 
-.charsheet .sheet-last-updated {
+/* inventory page tab labels */
+
+.sheet-inventorytab1::after {
+	content: "Page 1";
+}
+
+.sheet-inventorytab2::after {
+	content: "Page 2";
+}
+
+.sheet-inventorytab3::after {
+	content: "Page 3";
+}
+
+.sheet-inventorytab4::after {
+	content: "Page 4";
+}
+
+.sheet-inventorytab99::after {
+	content: "Show All";
+}
+
+.sheet-last-updated {
 	display: flex;
-	font-size: 0.7rem;
+	align-self: stretch;
+	align-items: center;
+	justify-content: center;
 	margin: 0;
 	text-align: center;
 	color: #aaaaaa;
 	height: 100%;
 }
 
-.charsheet .sheet-checkbox-row {
-    border: 1px solid rgba(0,0,0,0.05);
-    border-top: 0;
-    border-left: 0;
-    background: #fff;
+.sheet-last-updated br {
+	display: block; /* override general <br> hiding */
 }
 
-.charsheet .sheet-hd-row {
-	margin-top: 5px;
-	/* font-size: 11px!important; */
-}
-
-
-.charsheet .sheet-padl{
-
-}
-
-.charsheet .sheet-padt{
-	padding-top:12px;
-	-webkit-box-sizing: border-box;
-	-moz-box-sizing: border-box;
-	box-sizing: border-box;
-}
-
-.charsheet .sheet-padb{
-	margin-bottom: 1rem;
+.sheet-hd-row {
+	border-bottom-width: 1px;
+	border-right-width: 1px;
+	background-color: #fff;
+	text-align: center;
+	padding-left: 1rem;
+	padding-right: 1rem;
 }
 
 .charsheet .sheet-border-right {
@@ -514,69 +787,28 @@
 .charsheet input[type=number],
 .charsheet input[type=text],
 .charsheet select {
-	width: 100%;
+	width: 100% !important;
+	align-self: stretch;
 	text-align: center;
-	border: 1px solid rgba(0,0,0,0.05);
-	/* border-bottom: 0; */
+	border-width: 1px;
 	transition: none;
-	/* box-shadow: inset 0 -.1rem 0 rgba(0,0,0,0.05); */
+	font-size: 0.8rem;
+	padding: 0;
 }
 
-.charsheet input[type=number] {
-	width: 100% !important;
-}
 
 .charsheet :focus {
 	z-index: 9999;
-	border-color: blue !important;
-}
-.charsheet input[type=text].sheet-underlined {
+	border-color: rgb(76,161,199) !important;
 }
 
-.charsheet input[type=number].sheet-underlined {
+.charsheet input[type=number]:not(:disabled) {
+    padding-left: 10px; /* offset up/down */
 }
 
-.charsheet .btn {
-	font-size: 0.7rem !important;
-	width: 100%;
-	margin: 0 !important;
-	background: #E0A32A;
-	color: #fff;
-	text-shadow: none;
-	border: 0;
-	/* box-shadow: inset 1px 1px 0 rgba(255,255,255,0.15); */
-	padding-left: 0.5rem;
-	padding-right: 0.5rem;
-	box-shadow: inset 0 -.1rem 0 rgba(0,0,0,0.1);
-	-webkit-font-smoothing: auto;
-}
-
-.charsheet .btn:hover {
-	opacity: 0.9;
-}
-
-.charsheet button[type=roll] {
-	font-size: 0 !important; /* hide the text it's redunant */
-}
-
-.charsheet button[type=roll]:before {
-	font-size: 20px !important;
-	display: flex;
-	justify-content: center;
-}
-
-.charsheet button.sheet-initiative {
-	height: 2rem;
-}
 
 .charsheet hr {
-	border: 0;
-	height: 1px;
-	background-image: -webkit-linear-gradient(left, rgba(0,0,0,0), rgba(0,0,0,75.75), rgba(0,0,0,0)); 
-	background-image:    -moz-linear-gradient(left, rgba(0,0,0,0), rgba(0,0,0,75.75), rgba(0,0,0,0)); 
-	background-image:     -ms-linear-gradient(left, rgba(0,0,0,0), rgba(0,0,0,75.75), rgba(0,0,0,0)); 
-	background-image:      -o-linear-gradient(left, rgba(0,0,0,0), rgba(0,0,0,75.75), rgba(0,0,0,0)); 
-	margin: 5px 0;
+	display:  none;    
 }
 
 .charsheet span.sheet-spacer {
@@ -597,22 +829,21 @@
 }
 
 .charsheet .sheet-vert-middle {
-	vertical-align: middle!important;
 }
 
 .charsheet .sheet-vert-bottom {
 	vertical-align: bottom!important;
 }
 
-.charsheet .sheet-center {
-	display: flex;
+.sheet-center {
 }
 
 
 .charsheet textarea {
-	width: calc(100% - 10px);
-	height: 150px;
 	resize:none;
+	border-right-width: 1px;
+	border-bottom-width: 1px;
+	padding: 0.5rem;
 }
 
 .charsheet .sheet-fluid-textarea {
@@ -645,33 +876,31 @@
 }
 
 .charsheet h4 {
+	display: flex;
+	align-self: stretch;
 	border-top-left-radius: 2rem;
-	width: 100%;
 	background-color: rgb(72,70,75);
 	color: #ffffff;
-	/* font-size: 12px; */
-	border-radius: 12px;
-	/* padding-left: 5px; */
-	/* margin-bottom: 5px; */
-	align-items: center !important;
 	border-radius: 0.2rem;
 	border-bottom-right-radius: 0;
 	border-bottom-left-radius: 0;
+	font-weight: normal;
+	font-size: 0.8rem;
+}
+
+.sheet-row + .sheet-row > * > h4, .charsheet h4:nth-child(n+3) {
+	margin-top: 1rem;
 }
 
 
 .charsheet input[disabled] {
 	background-color: #eaffef;
-	/* border-color: #ddd; */
 	cursor: not-allowed;
-	-moz-appearance: textfield;
+	border-color: inherit;
 }
 
-.charsheet input[disabled].sheet-passive-skill-score {
-	background-color: #def6fc;
-	border-color: #ddd;
-	cursor: not-allowed;
-	-moz-appearance: textfield;
+.sheet-passive-skill-score {
+	background-color: #def6fc !important;
 }
 
 .charsheet input[disabled]::-webkit-inner-spin-button,.charsheet input[disabled]::-webkit-outer-spin-button { 
@@ -679,16 +908,9 @@
 	margin: 0; 
 }
 
-.charsheet .sheet-small-note {
-	text-align: center;
-	font-family: Arial;
-	font-size: 10px;
-	background: rgba(255,255,255,0.5);
-	display: flex;
-}
 
 .charsheet select {
-	font-size: 90%;
+	font-size: 0.7rem;
 }
 
 .charsheet .sheet-important-text {
@@ -701,23 +923,12 @@
 }
 
 
-.charsheet .sheet-sub-header { 
-	width: 100%;
-	background-color: rgba(72,70,75, 0.9);
-	color: #fff;
-	/* border-top: 1px solid rgba(255,255,255,.05); */
-	border-bottom: 1px solid rgba(0,0,0,0.05);
-}
-
-.sheet-sub-header ~ .sheet-row {
-	background: #fff;
-}
 
 .charsheet .sheet-footer { 
 	background-color: rgba(250, 202, 78, 0.2);
 	vertical-align: bottom;
 	border-radius: 0.2rem;
-	margin-top: 3px;
+	margin-top: 1rem;
 }
 
 .charsheet .sheet-spell-header { 
@@ -750,95 +961,28 @@
 	vertical-align: middle;
 }
 
-
-
-.charsheet input.sheet-death-save-fail {
-	width: 28%;
-	height: 20px;
-	cursor: pointer;	
-	position: relative;
-	opacity: 0;
-	z-index: 9999;
-	margin-top: 5px;
-	margin-bottom: 5px;
+/* death saving throws */
+.sheet-death-save-fail-tab,
+.sheet-death-save-success-tab {
+	display: none !important;
 }
 
-.charsheet span.sheet-death-save-fail-tab::before {
-	content: "???";
-}
-
-.charsheet span.sheet-death-save-fail-tab {
-	text-align: center;
-	display: inline-block;    
-	width: 28%;
-	height: 20px;
-	font-size: 13px;
-	
-	font-weight: bold;
-	border-radius: 4px;
-	margin-left: -28%;
-	border: 1px solid;
-}
-
-.charsheet input.sheet-death-save-fail:checked + span.sheet-death-save-fail-tab {
-	background:  #8c6075;    
-	color: white;
-	border-radius: 4px;
-}
-
-.charsheet input.sheet-death-save-fail:checked + span.sheet-death-save-fail-tab::before {
-	content: "Failure";
-}
-
-
-
-.charsheet input.sheet-death-save-success {
-	width: 28%;
-	height: 20px;
-	cursor: pointer;	
-	position: relative;
-	opacity: 0;
-	z-index: 9999;
-	margin-top: 5px;
-	margin-bottom: 5px;
-}
-
-.charsheet span.sheet-death-save-success-tab::before {
-	content: "???";
-}
-
-.charsheet span.sheet-death-save-success-tab {
-	text-align: center;
-	display: inline-block;    
-	width: 28%;
-	height: 20px;
-	font-size: 13px;
-	
-	font-weight: bold;
-	border-radius: 4px;
-	margin-left: -28%;
-	border: 1px solid;
-}
-
-.charsheet input.sheet-death-save-success:checked + span.sheet-death-save-success-tab {
-	background: #879a6a;     
-	color: white;
-	border-radius: 4px;
-}
-
-.charsheet input.sheet-death-save-success:checked + span.sheet-death-save-success-tab::before {
-	content: "Success"
-}
-
-.charsheet .sheet-skill-row {
-	margin: 1px 0;
+/* skills */
+.sheet-skill-row {
+	/* margin: 1px 0; */
+	align-items: stretch;
+	justify-content: space-between;
 }
 
 .charsheet .sheet-skill-roll {
 }
 .charsheet .sheet-skill-name {
-	margin-top: 5px;
+	border-bottom-width: 1px;
+	/* margin-top: 5px; */
 	font-size: 11px!important;
+	border-right-width: 1px;
+	background-color:  #fff;
+	/* width: 37% !important; */
 }
 .charsheet .sheet-skill-checkbox {
 	margin-top: 5px;
@@ -858,15 +1002,24 @@
 	text-rendering: auto;
 }
 
-.charsheet [class^=sheet-col-] { 
+[class^=sheet-col-] { 
 	display: flex;
 	flex-direction: column;
-	height: 100%;
 }
+
+/* death saving throws */
+
+.sheet-col-1-4 + .sheet-col-3-4 {
+	flex-direction: row;
+}
+
+
+/* widths */
 
 
 
 .charsheet .sheet-col-1 {
+    width: 100%;
 }
 
 
@@ -942,7 +1095,7 @@
 	margin-left: 80%;
 }
 
-.charsheet .sheet-col-1-6 {
+.sheet-col-1-6 {
 	width: 16.66667%;
 }
 
@@ -974,7 +1127,7 @@
 	margin-left: 28.57143%;
 }
 
-.charsheet .sheet-col-3-7 {
+.sheet-col-3-7 {
 	width: 42.85714%;
 }
 
@@ -1286,7 +1439,7 @@
 	margin-left: 38.46154%;
 }
 
-.charsheet .sheet-col-6-13 {
+.sheet-col-6-13 {
 	width: 46.15385%;
 }
 
@@ -2355,7 +2508,7 @@
 }
 
 .charsheet .sheet-offset-1-24 {
-	margin-left: 4.16667%;
+	/* margin-left: 4.16667%; */
 }
 
 .charsheet .sheet-col-5-24 {
@@ -2451,9 +2604,3 @@
 .charsheet .sheet-row-r img {
 	max-width: 100%;
 }
-
-/* add/modify line */
-.charsheet div[class^="repcontrol"] {
-	margin-bottom: 5px;
-}
-
