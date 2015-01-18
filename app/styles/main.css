@@ -139,7 +139,11 @@
 /* row modification buttons */
 
 .charsheet .itemcontrol  {
+    left: 0;
     z-index: 9999;
+    right: 0;
+    top: 0;
+    bottom: 0;
 }
 
 .charsheet :hover > .itemcontrol {
@@ -156,32 +160,44 @@
 .sheet-row {
 	position: relative;
 	display: flex !important;
-	flex-direction: row;
-	justify-content: center;
-	align-self: stretch;
-	align-items: stretch
-	;
+	flex-direction: row !important;
+	/* justify-content: flex-start; */
+	/* align-self: stretch; */
+	align-items: flex-start;
 	width: 100%;
-}
-
-.sheet-section-inventory > .sheet-row,
-.sheet-section-class > .sheet-row,
-.sheet-section-skills > .sheet-row,
-.sheet-section-core > .sheet-row {
-	margin-left: -1rem;
-	width: calc(100% + 1rem);
-}
-
-.sheet-section-inventory > .sheet-row > *,
-.sheet-section-class > .sheet-row > *,
-.sheet-section-skills > .sheet-row > *,
-.sheet-section-core > .sheet-row > * {
-	margin-left: 1rem;
+	flex-wrap: wrap;
 }
 
 .sheet-sub-header + .sheet-row,
 .sheet-sub-header ~ .sheet-row + .sheet-row {
 	background-color: #ffffff;
+}
+
+/* main content areas */
+.sheet-section-spellbook > .sheet-row > * > hr + .sheet-row:last-child,
+.sheet-section-inventory > .sheet-row,
+.sheet-section-class > .sheet-row,
+.sheet-section-skills > .sheet-row,
+.sheet-section-core > .sheet-row,
+.sheet-section-spellbook > .sheet-row,
+.sheet-section-core > .sheet-row,
+.sheet-padb + .sheet-row {
+	margin-left: -1rem;	
+	width: calc(1rem + 100%);
+}
+
+.sheet-section-spellbook > .sheet-row > * > hr + .sheet-row:last-child > *,
+.sheet-section-inventory > .sheet-row > *,
+.sheet-section-class > .sheet-row > *,
+.sheet-section-skills > .sheet-row > *,
+.sheet-section-core > .sheet-row > *,
+.sheet-section-spellbook > .sheet-row > *,
+.sheet-section-core > .sheet-row > *,
+.sheet-padb + .sheet-row > * {
+	padding-left: 1rem;	
+}
+
+.sheet-section-core > .sheet-row {
 }
 
 /* expand titles on skills grid */
@@ -210,12 +226,6 @@
 .sheet-row + .sheet-row > * > * {
 	border-top-color: transparent !important;
 }
-
-/* color nested rows for death saving throws */
-.sheet-padl > .sheet-row > .sheet-small-label {
-	background-color: #fff;
-}
-
 
 /* icons */
 
@@ -470,21 +480,7 @@ span.sheet-tab {
 	display: none;
 }
 
-/* main content areas */
 
-.sheet-section-core > .sheet-row,
-.sheet-padb + .sheet-row {
-	margin-left: -1rem;	
-	width: calc(1rem + 100%);
-}
-
-.sheet-section-core > .sheet-row > *,
-.sheet-padb + .sheet-row > * {
-	margin-left: 1rem;	
-}
-
-.sheet-section-core > .sheet-row {
-}
 
 /* labels */
 
@@ -516,16 +512,30 @@ span.sheet-tab {
 	padding-right: 1rem;
 	align-self: stretch;
 	height: auto;
-	border-bottom-width: 1px;
+	/* border-bottom-width: 1px; */
+}
+
+.sheet-section-armour .sheet-small-note {
+	border-bottom-width:1px;
+}
+
+.sheet-section-spellbook > .sheet-row > * > .sheet-small-note:first-child {
+	margin-top: 1rem;
+	border-radius: 0.2rem;
 }
 
 .sheet-small-note:last-child {
 	/* border-bottom-width: 0; */
 }
 
+.sheet-section-spellbook .repitem .sheet-spacer + .sheet-small-label {
+	width: 3rem;
+	flex-grow: 1;
+}
 
 /* headers */
 
+.sheet-spell-header,
 .sheet-sub-header { 
 	width: 100%;
 	background-color: rgba(72,70,75, 0.9) !important;
@@ -537,7 +547,8 @@ span.sheet-tab {
 	border-top-left-radius: 0.2rem;
 }
 
-.sheet-sub-header .sheet-small-label {
+.sheet-spell-header *,
+.sheet-sub-header * {
 	color: #ffffff;
 }
 
@@ -548,14 +559,12 @@ h4 + * > .sheet-sub-header {
 }
 
 /* extra in-row headers */
-.sheet-inventory-row-number,
-.sheet-section-inventory .sheet-col-1-4.sheet-margin-top.sheet-small-label,
-.sheet-section-armour .sheet-col-1-5.sheet-padl.sheet-padr.sheet-margin-top.sheet-small-label,
-.sheet-section-core .sheet-col-1-4.sheet-margin-top.sheet-small-label,
-.sheet-section-class .sheet-col-1-8.sheet-center.sheet-margin-top {
+
+.sheet-section-spellbook .repitem .sheet-small-label, .sheet-section-spellbook .sheet-sub-header ~ .sheet-row:not(.sheet-sub-header) > :first-child:not(.sheet-col-1-2), .sheet-inventory-row-number, .sheet-section-inventory .sheet-col-1-4.sheet-margin-top.sheet-small-label, .sheet-section-armour .sheet-col-1-5.sheet-padl.sheet-padr.sheet-margin-top.sheet-small-label, .sheet-section-core .sheet-col-1-4.sheet-margin-top.sheet-small-label, .sheet-section-class .sheet-col-1-8.sheet-center.sheet-margin-top {
     background-color: #fafafa;
     border-bottom-width: 1px;
     border-right-width: 1px;
+    display: flex;
 }
 
 .sheet-section-inventory .sheet-col-1-4.sheet-margin-top.sheet-small-label {
@@ -585,12 +594,17 @@ h4 + * > .sheet-sub-header {
 	display: none;
 	width: 100%;
 	overflow: hidden;
-	flex-direction: column;
+	flex-direction: row;
 	align-self: stretch;
+	flex-wrap: wrap;
 }
 
 .sheet-section-inventory {
 	flex-direction: row;
+	flex-wrap: wrap;
+}
+
+.sheet-section-spellbook > .sheet-row:first-of-type {
 	flex-wrap: wrap;
 }
 
@@ -655,18 +669,13 @@ h4 + * > .sheet-sub-header {
 	font-style: italic;
 }
 
-.charsheet div[class^="sheet-spell-page"] { 	
-	visibility: hidden;
-	opacity: 0;
-	max-height:0;
-	overflow: hidden;
+[class^="sheet-spell-page"] { 	
+	display: none;
+	width: 100%;
 }
 
 .charsheet input.sheet-spelltab0:checked ~ div.sheet-spell-page0,.charsheet input.sheet-spelltab1:checked ~ div.sheet-spell-page1,.charsheet input.sheet-spelltab2:checked ~ div.sheet-spell-page2,.charsheet input.sheet-spelltab3:checked ~ div.sheet-spell-page3,.charsheet input.sheet-spelltab4:checked ~ div.sheet-spell-page4,.charsheet input.sheet-spelltab5:checked ~ div.sheet-spell-page5,.charsheet input.sheet-spelltab6:checked ~ div.sheet-spell-page6,.charsheet input.sheet-spelltab7:checked ~ div.sheet-spell-page7,.charsheet input.sheet-spelltab8:checked ~ div.sheet-spell-page8,.charsheet input.sheet-spelltab9:checked ~ div.sheet-spell-page9 {
-	max-height: 999999px;
-	visibility: visible;
-	opacity: 1;
-	transition: opacity 0.5s linear 0s;
+	display: block;
 }
 
 .charsheet input.sheet-spelltab99:checked ~ div[class^="sheet-spell-page"] { 	
@@ -676,36 +685,71 @@ h4 + * > .sheet-sub-header {
 	transition: opacity 0.5s linear 0s;
 }
 
-.charsheet input.sheet-spelltab0:checked ~ span.sheet-spelltab0,.charsheet input.sheet-spelltab1:checked ~ span.sheet-spelltab1,.charsheet input.sheet-spelltab2:checked ~ span.sheet-spelltab2,.charsheet input.sheet-spelltab3:checked ~ span.sheet-spelltab3,.charsheet input.sheet-spelltab4:checked ~ span.sheet-spelltab4,.charsheet input.sheet-spelltab5:checked ~ span.sheet-spelltab5,.charsheet input.sheet-spelltab6:checked ~ span.sheet-spelltab6,.charsheet input.sheet-spelltab7:checked ~ span.sheet-spelltab7,.charsheet input.sheet-spelltab8:checked ~ span.sheet-spelltab8,.charsheet input.sheet-spelltab9:checked ~ span.sheet-spelltab9,.charsheet input.sheet-spelltab99:checked ~ span.sheet-spelltab99
+.sheet-spellpagetab:checked
  {
-	background: rgb(0,158,115);    
-	color: white;
-	border-radius: 4px;
+	background: #E0A32A !important;    
 }
 
-.charsheet input.sheet-spellpagetab {
-	width: 70px;
-	height: 20px;
+.sheet-spellpagetab {
+	flex-grow: 1;
+	margin-top: 1rem;
+	-webkit-appearance: none;
+	
 	cursor: pointer;
-	position: relative;
-	opacity: 0;
-	z-index: 9999;
-}
-
-.charsheet span.sheet-spellpagetab {
-	text-align: center;
-	display: inline-block;    
-	font-size: 13px;
+	display: flex;
 	background: rgb(86,180,233); 
 	color: white;
 	font-weight: bold;
-	border-radius: 4px;
 	
-	width: 70px;
-	height: 20px;
 	cursor: pointer;
-	position: relative;
-	margin-left: -73px;
+}
+
+span.sheet-spellpagetab {
+	display: none;
+}
+
+.sheet-spelltab0 {
+	border-top-left-radius: 0.2rem;
+	border-bottom-left-radius: 0.2rem;
+}
+
+.sheet-spelltab99 {
+	border-top-right-radius: 0.2rem;
+	border-bottom-right-radius: 0.2rem;
+}
+
+.sheet-spelltab0::before {
+	content: "Cantrips"
+}
+.sheet-spelltab1::before {
+	content: "Level 1"
+}
+.sheet-spelltab2::before {
+	content: "Level 2"
+}
+.sheet-spelltab3::before {
+	content: "Level 3"
+}
+.sheet-spelltab4::before {
+	content: "Level 4"
+}
+.sheet-spelltab5::before {
+	content: "Level 5"
+}
+.sheet-spelltab6::before {
+	content: "Level 6"
+}
+.sheet-spelltab7::before {
+	content: "Level 7"
+}
+.sheet-spelltab8::before {
+	content: "Level 8"
+}
+.sheet-spelltab9::before {
+	content: "Level 9"
+}
+.sheet-spelltab99::before {
+	content: "Show All"
 }
 
 .charsheet [data-groupname^="repeating_spellbook"] .repitem,
@@ -714,6 +758,22 @@ h4 + * > .sheet-sub-header {
 	background: rgba(0,0,0,0.02);
 	width: 100%;
 }
+
+.sheet-section-spellbook .repitem {
+	padding:0.5rem;
+	font-size: 0;
+}
+
+.sheet-section-spellbook .repitem > .itemcontrol + * {
+	font-size: 0;
+}
+
+.sheet-section-spellbook .repitem > .itemcontrol ~ * {
+	display: flex !important;
+	flex-direction: row !important;
+	flex-wrap: wrap;
+}
+
 
 .repitem > .sheet-row {
 	/* justify-content: flex-end; */
@@ -725,62 +785,72 @@ h4 + * > .sheet-sub-header {
 	/* margin-left: 1rem; */
 }
 
-.charsheet div[class^="sheet-spell-type"] { 	
-	visibility: hidden;
-	opacity: 0;
-	max-height:0;
-	overflow: hidden;
+[class^="sheet-spell-type"] { 	
+	display: none;
+	width: 100%;
 }
 
 .charsheet input.sheet-spelltypeadvanced:checked ~ div.sheet-spell-type-advanced,.charsheet input.sheet-spelltypeattack:checked ~ div.sheet-spell-type-attack,.charsheet input.sheet-spelltypesave:checked ~ div.sheet-spell-type-save,.charsheet input.sheet-spelltypedamage:checked ~ div.sheet-spell-type-damage,.charsheet input.sheet-spelltypeheal:checked ~ div.sheet-spell-type-heal,.charsheet input.sheet-spelltypeeffects:checked ~ div.sheet-spell-type-effects {
-	max-height: 999999px;
-	visibility: visible;
-	opacity: 1;
-	transition: opacity 0.5s linear 0s;
+	display: block;
 }
 
-.charsheet input.sheet-spelltypeadvanced:checked ~ span.sheet-spelltypeadvanced,.charsheet input.sheet-spelltypeattack:checked ~ span.sheet-spelltypeattack,.charsheet input.sheet-spelltypesave:checked ~ span.sheet-spelltypesave,.charsheet input.sheet-spelltypedamage:checked ~ span.sheet-spelltypedamage,.charsheet input.sheet-spelltypeheal:checked ~ span.sheet-spelltypeheal,.charsheet input.sheet-spelltypeeffects:checked ~ span.sheet-spelltypeeffects
- {
-	background: #879a6a;     
-	color: white;
-	border-radius: 4px;
+.sheet-spelltypetab:checked {
+	background: #E0A32A !important;     
 }
 
-.charsheet input.sheet-spelltypetab {
-	width: 119px;
-	height: 20px;
+.sheet-spelltypetab {
+	-webkit-appearance: none;
 	cursor: pointer;
-	position: relative;
-	opacity: 0;
-	z-index: 999;
 }
 
-.charsheet span.sheet-spelltypetab {
-	text-align: center;
-	display: inline-block;    
-	font-size: 13px;
-	background: #8c6075;
+.sheet-spelltypetab::after {
+	display: none;
+}
+
+.sheet-spelltypetab {
+	width: calc(100%/7) !important;
+	flex-grow: 2;
+	background: rgb(86,180,233) !important;
 	color: white;
-	font-weight: bold;	
-	width: 119px;
-	height: 20px;
-	cursor: pointer;
-	position: relative;
-	margin-left: -121px;
 }
 
+span.sheet-spelltypetab {
+	display: none;
+}
 
+.sheet-spelltypeadvanced::before {
+	content: 'Advanced';
+}
 
+.sheet-spelltypeattack::before {
+	content: 'Attack';
+}
+
+.sheet-spelltypesave::before {
+	content: 'Save';
+}
+
+.sheet-spelltypeheal::before {
+	content: 'Healing';
+}
+
+.sheet-spelltypedamage::before {
+	content: 'Damage';
+}
+
+.sheet-spelltypeeffects::before {
+	content: 'Effects';
+}
 
 [class^="sheet-inventory-page"] { 	
 	display: none;
 	width: 100%;
 }
 
-.charsheet input.sheet-inventorytab1:checked ~ div.sheet-inventory-page1,
-.charsheet input.sheet-inventorytab2:checked ~ div.sheet-inventory-page2,
-.charsheet input.sheet-inventorytab3:checked ~ div.sheet-inventory-page3,
-.charsheet input.sheet-inventorytab4:checked ~ div.sheet-inventory-page4,
+.sheet-inventorytab1:checked ~ div.sheet-inventory-page1,
+.sheet-inventorytab2:checked ~ div.sheet-inventory-page2,
+.sheet-inventorytab3:checked ~ div.sheet-inventory-page3,
+.sheet-inventorytab4:checked ~ div.sheet-inventory-page4,
 .sheet-inventorytab99:checked ~ [class^="sheet-inventory-page"] {
 	max-height: 999999px;
 	display: block;
@@ -851,6 +921,7 @@ span.sheet-inventorytab {
 	display: block; /* override general <br> hiding */
 }
 
+.sheet-section-spellbook .repitem .sheet-col-1-12:first-child,
 .sheet-hd-row {
 	border-bottom-width: 1px;
 	border-right-width: 1px;
@@ -895,8 +966,6 @@ span.sheet-inventorytab {
 }
 
 .charsheet span.sheet-spacer {
-	display: block;
-	margin-top: 5px;
 }
 
 .charsheet .sheet-heading-row {
@@ -914,7 +983,7 @@ span.sheet-inventorytab {
 .charsheet .sheet-vert-middle {
 }
 
-.charsheet .sheet-vert-bottom {
+.sheet-vert-bottom {
 	vertical-align: bottom!important;
 }
 
@@ -1015,11 +1084,7 @@ span.sheet-inventorytab {
 	margin-top: 1rem;
 }
 
-.charsheet .sheet-spell-header { 
-	background-color: #c7d1bf;
-	vertical-align: bottom;
-	border-radius: 12px;
-	margin-bottom: 3px;
+ { 
 }
 
 
@@ -1087,6 +1152,7 @@ span.sheet-inventorytab {
 
 [class^=sheet-col-] { 
 	display: flex;
+	flex-grow: 1;
 	flex-direction: column;
 }
 
@@ -1099,11 +1165,7 @@ span.sheet-inventorytab {
 
 /* widths */
 
-[class^=sheet-col] {
-	flex-grow: 1;
-}
-
-.charsheet .sheet-col-1 {
+.sheet-col-1 {
     width: 100%;
 }
 
