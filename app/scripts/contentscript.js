@@ -10,9 +10,9 @@ link.href = chrome.extension.getURL('styles/main.css');
 link.rel = 'stylesheet';
 head.appendChild(link);
 
-// var lrScript = document.createElement('script');
-// lrScript.src = 'https://127.0.0.1:35729/livereload.js';
-// head.appendChild(lrScript);
+var script = document.createElement('script');
+script.src = chrome.extension.getURL('scripts/main.js');
+head.appendChild(script);
 
 // remove original styles
 console.log(line);
