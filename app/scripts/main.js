@@ -1,8 +1,10 @@
 $(onDomReady);
 
 function onDomReady() {
+	var $body = $('body');
+
 	// detect opening of dialog
-	$('body').on('dialogopen', onDialogOpen);
+	$body.on('dialogopen', onDialogOpen);
 
 	function onDialogOpen(e) {
 		var $maxBtn;
@@ -16,14 +18,14 @@ function onDomReady() {
 		}
 
 		$maxBtn = $('<div class="ui-dialog-max">max</div>');
+		$maxBtn.on('click', toggleMax);
 		$dialog.prepend($maxBtn);
-
-		$dialog.on('click', '.ui-dialog-max', toggleMax);
 	}
 
 	function toggleMax(e) {
-		console.log(e);
-		var $dialog = $(e.delegateTarget);
-		$dialog.toggleClass('characterdialog-is-max');
+		var $this = $(this);
+		var $dialog = $this.closest('.ui-dialog');
+		$dialog.toggleClass('ui-dialog-max');
+		$body.toggleClass('has-maxed-dialog');
 	}
 }
