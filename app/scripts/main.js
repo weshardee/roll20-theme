@@ -17,7 +17,7 @@ function onDomReady() {
 			return;
 		}
 
-		$maxBtn = $('<div class="ui-dialog-max">max</div>');
+		$maxBtn = $('<div class="dialog-maxbtn">max</div>');
 		$maxBtn.on('click', toggleMax);
 		$dialog.prepend($maxBtn);
 	}
