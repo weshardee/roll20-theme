@@ -15,7 +15,8 @@
         ]
     },
     "web_accessible_resources": [
-        "styles/main.css"
+        "styles/main.css",
+        "scripts/main.js"
     ],
     "content_scripts": [
         {
