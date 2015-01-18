@@ -66,6 +66,8 @@
 	bottom: 0 !important;
 	z-index: 1;
 	overflow: auto
+;
+	display: block !important;
 }
 
 .ui-dialog-max .dialog-maxbtn {
@@ -144,6 +146,11 @@
 	background: rgba(76,161,199, 0.2) !important;
 }
 
+.repcontainer {
+	width: 100%;
+	min-height: 0;
+}
+
 /* general layout */
 
 .sheet-row {
@@ -154,14 +161,18 @@
 	align-self: stretch;
 	align-items: stretch
 	;
+	width: 100%;
 }
 
+.sheet-section-inventory > .sheet-row,
 .sheet-section-class > .sheet-row,
 .sheet-section-skills > .sheet-row,
 .sheet-section-core > .sheet-row {
 	margin-left: -1rem;
+	width: calc(100% + 1rem);
 }
 
+.sheet-section-inventory > .sheet-row > *,
 .sheet-section-class > .sheet-row > *,
 .sheet-section-skills > .sheet-row > *,
 .sheet-section-core > .sheet-row > * {
@@ -171,6 +182,11 @@
 .sheet-sub-header + .sheet-row,
 .sheet-sub-header ~ .sheet-row + .sheet-row {
 	background-color: #ffffff;
+}
+
+/* expand titles on skills grid */
+.sheet-section-skills .sheet-row > :nth-child(2) {
+	flex-grow: 1;
 }
 
 /* 1off layout override for death saving throw button */
@@ -277,6 +293,10 @@
 	
 }
 
+[name=attr_unarmoured_class_bonus] {
+	height:2.7rem;
+}
+
 /* checkboxes */
 
 [class^=sheet-section] input[type=checkbox] {
@@ -316,7 +336,7 @@
 	z-index: 0;
 	height: 2rem !important;
 		
-	background: rgb(76,161,199);
+	background: rgb(86,180,233);
 			color: white;
 	box-shadow: inset 0 -.1rem 0 rgba(0,0,0,0.1);
 	border-radius: 0.2rem !important;
@@ -382,8 +402,8 @@
 	-webkit-appearance: none;
 	display: flex;
 	flex-grow: 1;		
-	margin-bottom: 1rem !important;
-	background: rgb(76,161,199); 
+	/* margin-bottom: 1rem !important; */
+	background: rgb(86,180,233); 
 	color: white;
 	z-index: 0;
 	box-shadow: inset 0 -.1rem 0 rgba(0,0,0,0.1);   
@@ -496,10 +516,11 @@ span.sheet-tab {
 	padding-right: 1rem;
 	align-self: stretch;
 	height: auto;
+	border-bottom-width: 1px;
 }
 
 .sheet-small-note:last-child {
-	border-bottom-width: 0;
+	/* border-bottom-width: 0; */
 }
 
 
@@ -526,12 +547,29 @@ h4 + * > .sheet-sub-header {
 	border-radius: 0;
 }
 
-/* class headers on class tab */
-.sheet-section-core .sheet-col-1-4.sheet-margin-top.sheet-small-label, .sheet-section-class .sheet-col-1-8.sheet-center.sheet-margin-top {
+/* extra in-row headers */
+.sheet-inventory-row-number,
+.sheet-section-inventory .sheet-col-1-4.sheet-margin-top.sheet-small-label,
+.sheet-section-armour .sheet-col-1-5.sheet-padl.sheet-padr.sheet-margin-top.sheet-small-label,
+.sheet-section-core .sheet-col-1-4.sheet-margin-top.sheet-small-label,
+.sheet-section-class .sheet-col-1-8.sheet-center.sheet-margin-top {
     background-color: #fafafa;
     border-bottom-width: 1px;
     border-right-width: 1px;
 }
+
+.sheet-section-inventory .sheet-col-1-4.sheet-margin-top.sheet-small-label {
+	width: 0;
+	min-width: 180px;
+	align-items: flex-end;
+	padding: 0 0.5rem;
+}
+
+.sheet-section-inventory .sheet-col-1-4.sheet-margin-top.sheet-small-label + * {
+	margin:0;
+}
+
+
 
 /* unsorted */
 .charsheet div[class="repcontainer editmode"] ~ div[class^="repcontrol"] button[class="btn repcontrol_add"] {
@@ -545,9 +583,15 @@ h4 + * > .sheet-sub-header {
 	opacity: 0;
 	max-height:0;
 	display: none;
+	width: 100%;
 	overflow: hidden;
 	flex-direction: column;
 	align-self: stretch;
+}
+
+.sheet-section-inventory {
+	flex-direction: row;
+	flex-wrap: wrap;
 }
 
 .charsheet input.sheet-tab1:checked ~ div.sheet-section-core,.charsheet input.sheet-tab2:checked ~ div.sheet-section-skills,.charsheet input.sheet-tab3:checked ~ div.sheet-section-background,.charsheet input.sheet-tab4:checked ~ div.sheet-section-class,.charsheet input.sheet-tab5:checked ~ div.sheet-section-weapons,.charsheet input.sheet-tab6:checked ~ div.sheet-section-spellbook,.charsheet input.sheet-tab8:checked ~ div.sheet-section-armour,.charsheet input.sheet-tab7:checked ~ div.sheet-section-inventory {
@@ -664,12 +708,21 @@ h4 + * > .sheet-sub-header {
 	margin-left: -73px;
 }
 
-.charsheet div[data-groupname^="repeating_spellbook"] .repitem,.charsheet div[data-groupname^="repeating_classactions"] .repitem,.charsheet .sheet-npc-row {
-	border: 1px solid #000000;
-	border-radius: 12px;
-	margin-left: 1px;
-	margin-bottom: 5px;
-	background: #eee;
+.charsheet [data-groupname^="repeating_spellbook"] .repitem,
+.charsheet [data-groupname^="repeating_classactions"] .repitem,
+.charsheet .sheet-npc-row {
+	background: rgba(0,0,0,0.02);
+	width: 100%;
+}
+
+.repitem > .sheet-row {
+	/* justify-content: flex-end; */
+	/* align-items: flex-end; */
+	/* margin-left: -1rem; */
+}
+
+.repitem > .sheet-row > * {
+	/* margin-left: 1rem; */
 }
 
 .charsheet div[class^="sheet-spell-type"] { 	
@@ -719,58 +772,38 @@ h4 + * > .sheet-sub-header {
 
 
 
-.charsheet div[class^="sheet-inventory-page"] { 	
-	visibility: hidden;
-	opacity: 0;
-	max-height:0;
-	overflow: hidden;
+[class^="sheet-inventory-page"] { 	
+	display: none;
+	width: 100%;
 }
 
-.charsheet input.sheet-inventorytab1:checked ~ div.sheet-inventory-page1,.charsheet input.sheet-inventorytab2:checked ~ div.sheet-inventory-page2,.charsheet input.sheet-inventorytab3:checked ~ div.sheet-inventory-page3,.charsheet input.sheet-inventorytab4:checked ~ div.sheet-inventory-page4 {
+.charsheet input.sheet-inventorytab1:checked ~ div.sheet-inventory-page1,
+.charsheet input.sheet-inventorytab2:checked ~ div.sheet-inventory-page2,
+.charsheet input.sheet-inventorytab3:checked ~ div.sheet-inventory-page3,
+.charsheet input.sheet-inventorytab4:checked ~ div.sheet-inventory-page4,
+.sheet-inventorytab99:checked ~ [class^="sheet-inventory-page"] {
 	max-height: 999999px;
-	visibility: visible;
+	display: block;
 	opacity: 1;
 	transition: opacity 0.5s linear 0s;
-}
-
-.charsheet input.sheet-inventorytab99:checked ~ div[class^="sheet-inventory-page"]{ 	
-	max-height: 999999px;
-	visibility: visible;
-	opacity: 1;
-	transition: opacity 0.5s linear 0s;
-}
-
-.charsheet input.sheet-inventorytab1:checked ~ span.sheet-inventorytab1,
-.charsheet input.sheet-inventorytab2:checked ~ span.sheet-inventorytab2,
-.charsheet input.sheet-inventorytab3:checked ~ span.sheet-inventorytab3,
-.charsheet input.sheet-inventorytab4:checked ~ span.sheet-inventorytab4,
-.charsheet input.sheet-inventorytab99:checked ~ span.sheet-inventorytab99
- {
-	background: rgb(0,158,115);    
-	color: white;
 }
 
 /* inventory page tabs */
-input.sheet-inventorytab {
-	width: 155px;
-	height: 20px;
-	cursor: pointer;
-	position: relative;
-	z-index: 9999;
-}
-
 .sheet-inventorytab {
+	flex-grow: 1;
 	-webkit-appearance: none;
 
 	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	align-items: center;
-	text-align: center;
-
-	font-size: 13px;
 	background: rgb(86,180,233); 
 	color: white;
+	border-radius: 0.2rem;
+	margin-top: 1rem;
+	margin-bottom: 0;
+	cursor: pointer;
+}
+
+.sheet-inventorytab ~ .sheet-inventorytab {
+	margin-left:1rem;
 }
 
 .sheet-inventorytab:checked {
@@ -849,7 +882,7 @@ span.sheet-inventorytab {
 
 .charsheet :focus {
 	z-index: 9999;
-	border-color: rgb(76,161,199) !important;
+	border-color: rgb(86,180,233) !important;
 }
 
 .charsheet input[type=number]:not(:disabled) {
@@ -891,8 +924,7 @@ span.sheet-inventorytab {
 
 .charsheet textarea {
 	resize:none;
-	border-right-width: 1px;
-	border-bottom-width: 1px;
+	border-width: 1px;
 	padding: 0.5rem;
 }
 
@@ -936,6 +968,8 @@ span.sheet-inventorytab {
 	border-bottom-left-radius: 0;
 	font-weight: normal;
 	font-size: 0.8rem;
+	margin-top:  1rem;
+	width: 100%;
 }
 
 .sheet-row + .sheet-row > * > h4, .charsheet h4:nth-child(n+3) {
@@ -1032,7 +1066,6 @@ span.sheet-inventorytab {
 	font-size: 11px!important;
 	border-right-width: 1px;
 	background-color:  #fff;
-	/* width: 37% !important; */
 }
 .charsheet .sheet-skill-checkbox {
 	margin-top: 5px;
@@ -1066,14 +1099,15 @@ span.sheet-inventorytab {
 
 /* widths */
 
-
+[class^=sheet-col] {
+	flex-grow: 1;
+}
 
 .charsheet .sheet-col-1 {
     width: 100%;
 }
 
-
-.charsheet .sheet-col-1-2 {
+.sheet-col-1-2 {
 	width: 50%;
 }
 
@@ -2654,3 +2688,4 @@ span.sheet-inventorytab {
 .charsheet .sheet-row-r img {
 	max-width: 100%;
 }
+
